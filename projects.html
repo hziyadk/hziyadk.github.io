@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projects — Hauzan Ziyadatul Khoir</title>
+  <meta name="description"
+    content="Data science and AI projects by Hauzan Ziyadatul Khoir — machine learning, NLP, computer vision, and analytics." />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⬛</text></svg>" />
+  <style>
+    /* ── Page Header ── */
+    .page-header {
+      padding: calc(var(--nav-h) + 56px) 0 56px;
+    }
+
+    /* ══════════════════════════════════════
+       SLIDER — like bazil.fr "Derniers projets"
+    ══════════════════════════════════════ */
+    .projects-slider-section {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 56px 0 72px;
+    }
+
+    .slider-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto 40px;
+      padding: 0 32px;
+    }
+
+    .slider-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -0.03em;
+    }
+
+    .slider-arrows {
+      display: flex;
+      gap: 10px;
+    }
+
+    .slider-arrow {
+      width: 48px;
+      height: 48px;
+      border: 1px solid var(--border-hover);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      background: transparent;
+      cursor: pointer;
+      transition: var(--transition-fast);
+    }
+
+    .slider-arrow:hover {
+      border-color: var(--white);
+      color: var(--white);
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    /* Slider viewport */
+    .slider-viewport {
+      overflow: hidden;
+      padding: 0 32px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .slider-track {
+      display: flex;
+      gap: 20px;
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: transform;
+    }
+
+    /* Individual project card */
+    .project-slide {
+      flex: 0 0 calc(33.333% - 14px);
+      min-width: calc(33.333% - 14px);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      aspect-ratio: 3/4;
+      background: var(--surface-2);
+    }
+
+    .project-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: grayscale(100%) brightness(0.75);
+      transition: filter 0.5s ease, transform 0.5s ease;
+    }
+
+    .project-slide:hover img {
+      filter: grayscale(20%) brightness(0.85);
+      transform: scale(1.04);
+    }
+
+    .project-slide-info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 28px 28px 24px;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.92) 0%, rgba(0, 0, 0, 0.5) 60%, transparent 100%);
+    }
+
+    .project-slide-tag {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .project-slide-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.1rem, 2vw, 1.5rem);
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+      line-height: 1.15;
+    }
+
+    .project-slide-desc {
+      font-size: 0.82rem;
+      color: rgba(255, 255, 255, 0.55);
+      line-height: 1.5;
+      display: none;
+    }
+
+    .project-slide:hover .project-slide-desc {
+      display: block;
+    }
+
+    /* ══════════════════════════════════════
+       MARQUEE MIRING — like bazil.fr diagonal
+    ══════════════════════════════════════ */
+    .marquee-diagonal-section {
+      padding: 80px 0;
+      overflow: hidden;
+      background: var(--bg);
+    }
+
+    .marquee-diagonal-track {
+      transform: rotate(-7deg) translateY(-10px);
+      white-space: nowrap;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      scale: 1.15;
+    }
+
+    .marquee-row {
+      display: flex;
+      gap: 0;
+      width: max-content;
+    }
+
+    .marquee-row:nth-child(1) {
+      animation: marquee-left 25s linear infinite;
+    }
+
+    .marquee-row:nth-child(2) {
+      animation: marquee-right 22s linear infinite;
+    }
+
+    @keyframes marquee-left {
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    @keyframes marquee-right {
+      0% {
+        transform: translateX(-50%);
+      }
+
+      100% {
+        transform: translateX(0);
+      }
+    }
+
+    .marquee-word {
+      display: inline-flex;
+      align-items: center;
+      padding: 0 20px;
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 5vw, 5rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      white-space: nowrap;
+      line-height: 1.1;
+    }
+
+    .marquee-word.solid {
+      color: var(--white);
+    }
+
+    .marquee-word.outline {
+      -webkit-text-stroke: 1.5px var(--border-hover);
+      color: transparent;
+    }
+
+    .sep {
+      display: inline-block;
+      font-size: clamp(1.5rem, 3vw, 3rem);
+      color: var(--text-dim);
+      padding: 0 8px;
+      font-weight: 300;
+      align-self: center;
+    }
+
+    /* ══════════════════════════════════════
+       TECH MARQUEE (top) — logos + text, white
+    ══════════════════════════════════════ */
+    .tech-marquee {
+      overflow: hidden;
+      padding: 20px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .tech-track {
+      display: flex;
+      animation: marquee-left 30s linear infinite;
+      width: max-content;
+    }
+
+    .tech-track:hover {
+      animation-play-state: paused;
+    }
+
+    .tech-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 32px;
+      white-space: nowrap;
+    }
+
+    .tech-logo {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+      filter: brightness(0) invert(1);
+      /* force white */
+      opacity: 0.6;
+    }
+
+    .tech-name {
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .tech-sep {
+      display: inline-block;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--border-hover);
+      margin: 0 8px;
+    }
+
+    /* ── All projects list (below slider) ── */
+    .all-projects-section {
+      padding: 80px 0;
+    }
+
+    .projects-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      border-top: 1px solid var(--border);
+    }
+
+    .project-row {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: var(--transition-fast);
+      position: relative;
+    }
+
+    .project-row:hover {
+      padding-left: 16px;
+    }
+
+    .project-row-num {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      width: 32px;
+      flex-shrink: 0;
+    }
+
+    .project-row-thumb {
+      width: 64px;
+      height: 44px;
+      border-radius: 6px;
+      overflow: hidden;
+      flex-shrink: 0;
+      opacity: 0;
+      transform: scale(0.9);
+      transition: var(--transition-fast);
+    }
+
+    .project-row:hover .project-row-thumb {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .project-row-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(60%);
+    }
+
+    .project-row-name {
+      font-family: var(--font-display);
+      font-size: clamp(1.1rem, 2vw, 1.5rem);
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -0.02em;
+      flex: 1;
+      transition: var(--transition-fast);
+    }
+
+    .project-row:hover .project-row-name {
+      color: var(--text);
+    }
+
+    .project-row-tag {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 4px 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-full);
+    }
+
+    .project-row-arrow {
+      font-size: 1.1rem;
+      color: var(--text-dim);
+      transition: var(--transition-fast);
+    }
+
+    .project-row:hover .project-row-arrow {
+      color: var(--white);
+      transform: translateX(4px);
+    }
+
+    .project-row-stack {
+      display: flex;
+      gap: 16px;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .project-row-stack img,
+    .project-row-stack svg {
+      width: 22px;
+      height: 22px;
+      object-fit: contain;
+      opacity: 1;
+      transition: var(--transition-fast);
+    }
+
+    .project-row:hover .project-row-stack img,
+    .project-row:hover .project-row-stack svg {
+      transform: scale(1.1);
+    }
+
+    @media (max-width: 768px) {
+      .project-slide {
+        flex: 0 0 calc(80% - 10px);
+        min-width: calc(80% - 10px);
+      }
+
+      .project-row-thumb {
+        display: none;
+      }
+
+      .project-row-stack {
+        display: none;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .project-slide {
+        flex: 0 0 calc(90% - 10px);
+        min-width: calc(90% - 10px);
+      }
+    }
+  </style>
+</head>
+
+<body class="page-enter">
+
+  <!-- ─── Navbar ─── -->
+  <nav class="navbar" id="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" class="logo">Hauzan's Portfolio <span>.</span></a>
+      <div class="nav-links" id="navLinks">
+        <a href="projects.html" class="nav-link active">Projects</a>
+        <a href="certificates.html" class="nav-link">Certificates</a>
+        <a href="about.html" class="nav-link">About</a>
+        <a href="mailto:hauzanziyadk@gmail.com" class="btn btn-email">hauzanziyadk@gmail.com</a>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ─── Page Header ─── -->
+  <div class="page-header"
+    style="text-align: center; min-height: 50vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding-top: calc(var(--nav-h) + 40px);">
+    <div class="container reveal"
+      style="max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; align-items: center;">
+      <p class="section-label"
+        style="font-size: 0.75rem; letter-spacing: 0.25em; margin-bottom: 24px; color: #f39c12; text-transform: uppercase; font-weight: 600;">
+        Data Scientist, ML Engineer & AI Developer</p>
+      <h1
+        style="font-size: clamp(2.5rem, 6vw, 4.5rem); color: var(--white); line-height: 1.1; margin-bottom: 40px; font-weight: 700; letter-spacing: -0.03em;">
+        High-impact AI solutions and data-driven insights for modern challenges.
+      </h1>
+      <a href="mailto:hauzanziyadk@gmail.com" class="btn"
+        style="background: transparent; color: var(--white); border: 1px solid var(--white); border-radius: 4px; font-weight: 500; padding: 12px 24px; text-transform: none; letter-spacing: 0; transition: all 0.3s ease;">Start
+        a project together</a>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       TECH MARQUEE — logos + text, white
+  ══════════════════════════════════════ -->
+  <div class="tech-marquee">
+    <div class="tech-track" id="techTrack">
+      <!-- Using SVG inline logos (white) for common DS/AI tech -->
+
+      <div class="tech-item">
+        <!-- Python -->
+        <svg class="tech-logo" viewBox="0 0 24 24" fill="white">
+          <path
+            d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm-.5 4.5c1.984 0 3.5.896 3.5 2v1h-7v-1c0-1.104 1.516-2 3.5-2zm-6 6.5h13v1c0 3.59-2.91 6.5-6.5 6.5S6 15.59 6 12v-1zm6.5 5a1 1 0 100-2 1 1 0 000 2z" />
+        </svg>
+        <span class="tech-name">Python</span>
+      </div>
+      <span class="tech-sep"></span>
+
+      <div class="tech-item">
+        <!-- TensorFlow -->
+        <svg class="tech-logo" viewBox="0 0 24 24" fill="white">
+          <path
+            d="M1.292 5.856L11.54 0v24l-4.095-2.378V7.603l-6.168 3.564.015-5.31zM12.46 0l10.248 5.856.015 5.31-6.168-3.564v14.02L12.46 24V0z" />
+        </svg>
+        <span class="tech-name">TensorFlow</span>
+      </div>
+      <span class="tech-sep"></span>
+
+      <div class="tech-item">
+        <!-- PyTorch -->
+        <svg class="tech-logo" viewBox="0 0 24 24" fill="white">
+          <path
+            d="M12.005 0L4.952 7.053a9.865 9.865 0 000 13.942 9.866 9.866 0 0013.942 0 9.866 9.866 0 000-13.942L16.53 9.418a5.922 5.922 0 010 8.365 5.924 5.924 0 01-8.366 0 5.922 5.922 0 010-8.365l3.84-3.84zM15.121 0a1.207 1.207 0 110 2.414 1.207 1.207 0 010-2.414z" />
+        </svg>
+        <span class="tech-name">PyTorch</span>
+      </div>
+      <span class="tech-sep"></span>
+
+      <div class="tech-item">
+        <!-- Pandas - P icon -->
+        <svg class="tech-logo" viewBox="0 0 24 24" fill="white">
+          <path d="M9 3h2v18H9zm4 0h2v18h-2zM4 10h3v2H4zm13 0h3v2h-3zM4 12h3v2H4zm13 0h3v2h-3z" />
+        </svg>
+        <span class="tech-name">Pandas</span>
+      </div>
+      <span class="tech-sep"></span>
+
+      <div class="tech-item">
+        <!-- NumPy -->
+        <svg class="tech-logo" viewBox="0 0 24 24" fill="white">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+        </svg>
+        <span class="tech-name">NumPy</span>
+      </div>
+      <span class="tech-sep"></span>
+
+      <div class="tech-item">
+        <!-- Scikit-learn -->
+        <svg class="tech-logo" viewBox="0 0 24 24" fill="white">
+          <circle cx="12" cy="12" r="3" />
+          <path
+            d="M12 2v3M12 19v3M2 12h3M19 12h3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12" />
+        </svg>
+        <span class="tech-name">Scikit-learn</span>
+      </div>
+      <span class="tech-sep"></span>
+
+      <div class="tech-item">
+        <!-- HuggingFace -->
+        <svg class="tech-logo" viewBox="0 0 24 24" fill="white">
+          <circle cx="9" cy="9" r="1.5" />
+          <circle cx="15" cy="9" r="1.5" />
+          <path d="M12 17.5c-2.5 0-4.5-1.5-5-3.5h10c-.5 2-2.5 3.5-5 3.5z" />
+          <circle cx="12" cy="12" r="10" fill="none" stroke="white" stroke-width="1.5" />
+        </svg>
+        <span class="tech-name">HuggingFace</span>
+      </div>
+      <span class="tech-sep"></span>
+
+      <div class="tech-item">
+        <!-- Docker -->
+        <svg class="tech-logo" viewBox="0 0 24 24" fill="white">
+          <path
+            d="M13.5 6.5h2v2h-2zM10.5 6.5h2v2h-2zM7.5 6.5h2v2h-2zM13.5 9.5h2v2h-2zM10.5 9.5h2v2h-2zM7.5 9.5h2v2h-2zM4.5 9.5h2v2h-2zM16.5 9.5h2v2h-2zM23 11.5c-.7-.4-1.6-.5-2.5-.3-.2-1-1-1.8-2-2.2v-.5h-2v2h-14s-.5 2.5 1 4c.8.8 2 1.2 3 1.3l-.4.2c-.6.3-1.1.9-1.1 1.8 0 1.1.9 2 2 2s2-.9 2-2c0-.2 0-.3-.1-.5H14c0 .2-.1.3-.1.5 0 1.1.9 2 2 2s2-.9 2-2c0-.9-.5-1.6-1.2-1.9l-.3-.1c1.1-.1 2.2-.5 3-1.3.9-.9 1.2-2 1.2-2.9l.1-.1h.1c.5 0 .9-.1 1.2-.2z" />
+        </svg>
+        <span class="tech-name">Docker</span>
+      </div>
+      <span class="tech-sep"></span>
+
+      <div class="tech-item">
+        <!-- SQL/DB -->
+        <svg class="tech-logo" viewBox="0 0 24 24" fill="white">
+          <ellipse cx="12" cy="6" rx="8" ry="3" />
+          <path d="M4 6v4c0 1.66 3.58 3 8 3s8-1.34 8-3V6M4 10v4c0 1.66 3.58 3 8 3s8-1.34 8-3v-4" />
+        </svg>
+        <span class="tech-name">SQL</span>
+      </div>
+      <span class="tech-sep"></span>
+
+      <div class="tech-item">
+        <!-- Jupyter -->
+        <svg class="tech-logo" viewBox="0 0 24 24" fill="white">
+          <circle cx="12" cy="12" r="3" />
+          <path d="M12 2C9 2 6.5 3.5 5 6M12 22c3 0 5.5-1.5 7-4M2 12c0-3 1.5-5.5 4-7M22 12c0 3-1.5 5.5-4 7" />
+        </svg>
+        <span class="tech-name">Jupyter</span>
+      </div>
+      <span class="tech-sep"></span>
+
+      <div class="tech-item">
+        <!-- Git -->
+        <svg class="tech-logo" viewBox="0 0 24 24" fill="white">
+          <path
+            d="M23.546 10.93L13.067.452a1.55 1.55 0 00-2.188 0L8.708 2.627l2.76 2.76a1.838 1.838 0 012.327 2.341l2.658 2.66a1.838 1.838 0 01.48 3.591 1.837 1.837 0 01-2.308-2.308l-2.48-2.48v6.532a1.838 1.838 0 11-1.504-.043V9.863a1.838 1.838 0 01-.997-2.408L7.005 4.692.454 11.24a1.55 1.55 0 000 2.188l10.48 10.477a1.55 1.55 0 002.189 0l10.423-10.42a1.55 1.55 0 000-2.554z" />
+        </svg>
+        <span class="tech-name">Git</span>
+      </div>
+      <span class="tech-sep"></span>
+
+      <!-- Duplicate for seamless loop -->
+      <div class="tech-item">
+        <svg class="tech-logo" viewBox="0 0 24 24" fill="white">
+          <path
+            d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm-.5 4.5c1.984 0 3.5.896 3.5 2v1h-7v-1c0-1.104 1.516-2 3.5-2zm-6 6.5h13v1c0 3.59-2.91 6.5-6.5 6.5S6 15.59 6 12v-1zm6.5 5a1 1 0 100-2 1 1 0 000 2z" />
+        </svg>
+        <span class="tech-name">Python</span>
+      </div>
+      <span class="tech-sep"></span>
+      <div class="tech-item">
+        <svg class="tech-logo" viewBox="0 0 24 24" fill="white">
+          <path
+            d="M1.292 5.856L11.54 0v24l-4.095-2.378V7.603l-6.168 3.564.015-5.31zM12.46 0l10.248 5.856.015 5.31-6.168-3.564v14.02L12.46 24V0z" />
+        </svg>
+        <span class="tech-name">TensorFlow</span>
+      </div>
+      <span class="tech-sep"></span>
+      <div class="tech-item">
+        <svg class="tech-logo" viewBox="0 0 24 24" fill="white">
+          <path
+            d="M12.005 0L4.952 7.053a9.865 9.865 0 000 13.942 9.866 9.866 0 0013.942 0 9.866 9.866 0 000-13.942L16.53 9.418a5.922 5.922 0 010 8.365 5.924 5.924 0 01-8.366 0 5.922 5.922 0 010-8.365l3.84-3.84zM15.121 0a1.207 1.207 0 110 2.414 1.207 1.207 0 010-2.414z" />
+        </svg>
+        <span class="tech-name">PyTorch</span>
+      </div>
+      <span class="tech-sep"></span>
+      <div class="tech-item">
+        <svg class="tech-logo" viewBox="0 0 24 24" fill="white">
+          <path d="M9 3h2v18H9zm4 0h2v18h-2zM4 10h3v2H4zm13 0h3v2h-3zM4 12h3v2H4zm13 0h3v2h-3z" />
+        </svg>
+        <span class="tech-name">Pandas</span>
+      </div>
+      <span class="tech-sep"></span>
+      <div class="tech-item">
+        <svg class="tech-logo" viewBox="0 0 24 24" fill="white">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+        </svg>
+        <span class="tech-name">NumPy</span>
+      </div>
+      <span class="tech-sep"></span>
+      <div class="tech-item">
+        <svg class="tech-logo" viewBox="0 0 24 24" fill="white">
+          <circle cx="12" cy="12" r="3" />
+          <path
+            d="M12 2v3M12 19v3M2 12h3M19 12h3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12" />
+        </svg>
+        <span class="tech-name">Scikit-learn</span>
+      </div>
+      <span class="tech-sep"></span>
+      <div class="tech-item">
+        <svg class="tech-logo" viewBox="0 0 24 24" fill="white">
+          <circle cx="9" cy="9" r="1.5" />
+          <circle cx="15" cy="9" r="1.5" />
+          <path d="M12 17.5c-2.5 0-4.5-1.5-5-3.5h10c-.5 2-2.5 3.5-5 3.5z" />
+          <circle cx="12" cy="12" r="10" fill="none" stroke="white" stroke-width="1.5" />
+        </svg>
+        <span class="tech-name">HuggingFace</span>
+      </div>
+      <span class="tech-sep"></span>
+      <div class="tech-item">
+        <svg class="tech-logo" viewBox="0 0 24 24" fill="white">
+          <path
+            d="M13.5 6.5h2v2h-2zM10.5 6.5h2v2h-2zM7.5 6.5h2v2h-2zM13.5 9.5h2v2h-2zM10.5 9.5h2v2h-2zM7.5 9.5h2v2h-2zM4.5 9.5h2v2h-2zM16.5 9.5h2v2h-2zM23 11.5c-.7-.4-1.6-.5-2.5-.3-.2-1-1-1.8-2-2.2v-.5h-2v2h-14s-.5 2.5 1 4c.8.8 2 1.2 3 1.3l-.4.2c-.6.3-1.1.9-1.1 1.8 0 1.1.9 2 2 2s2-.9 2-2c0-.2 0-.3-.1-.5H14c0 .2-.1.3-.1.5 0 1.1.9 2 2 2s2-.9 2-2c0-.9-.5-1.6-1.2-1.9l-.3-.1c1.1-.1 2.2-.5 3-1.3.9-.9 1.2-2 1.2-2.9l.1-.1h.1c.5 0 .9-.1 1.2-.2z" />
+        </svg>
+        <span class="tech-name">Docker</span>
+      </div>
+      <span class="tech-sep"></span>
+      <div class="tech-item">
+        <svg class="tech-logo" viewBox="0 0 24 24" fill="white">
+          <ellipse cx="12" cy="6" rx="8" ry="3" />
+          <path d="M4 6v4c0 1.66 3.58 3 8 3s8-1.34 8-3V6M4 10v4c0 1.66 3.58 3 8 3s8-1.34 8-3v-4" />
+        </svg>
+        <span class="tech-name">SQL</span>
+      </div>
+      <span class="tech-sep"></span>
+      <div class="tech-item">
+        <svg class="tech-logo" viewBox="0 0 24 24" fill="white">
+          <path
+            d="M23.546 10.93L13.067.452a1.55 1.55 0 00-2.188 0L8.708 2.627l2.76 2.76a1.838 1.838 0 012.327 2.341l2.658 2.66a1.838 1.838 0 01.48 3.591 1.837 1.837 0 01-2.308-2.308l-2.48-2.48v6.532a1.838 1.838 0 11-1.504-.043V9.863a1.838 1.838 0 01-.997-2.408L7.005 4.692.454 11.24a1.55 1.55 0 000 2.188l10.48 10.477a1.55 1.55 0 002.189 0l10.423-10.42a1.55 1.55 0 000-2.554z" />
+        </svg>
+        <span class="tech-name">Git</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       PROJECTS SLIDER — like bazil.fr dark section
+  ══════════════════════════════════════ -->
+  <section class="projects-slider-section">
+    <div class="slider-header">
+      <h2 class="slider-title reveal">Latest Projects</h2>
+      <div class="slider-arrows">
+        <button class="slider-arrow" id="prevBtn">←</button>
+        <button class="slider-arrow" id="nextBtn">→</button>
+      </div>
+    </div>
+    <div class="slider-viewport">
+      <div class="slider-track" id="sliderTrack">
+
+        <!-- Slide 1 -->
+        <a href="projects/sentiment-analysis.html" class="project-slide reveal reveal-delay-1"
+          style="text-decoration: none; color: inherit; display: block;">
+          <img src="assets/images/project-nlp.png" alt="Sentiment Analysis" />
+          <div class="project-slide-info">
+            <span class="project-slide-tag">NLP · IndoBERT · PyTorch</span>
+            <h3 class="project-slide-title">Sentiment Analysis Engine</h3>
+            <p class="project-slide-desc">Multi-class sentiment classification on Indonesian social media text.
+              F1-score: 89%</p>
+          </div>
+        </a>
+
+        <!-- Slide 2 -->
+        <a href="projects/object-detection.html" class="project-slide reveal reveal-delay-2"
+          style="text-decoration: none; color: inherit; display: block;">
+          <img src="assets/images/project-cv.png" alt="Object Detection" />
+          <div class="project-slide-info">
+            <span class="project-slide-tag">Computer Vision · YOLOv8 · OpenCV</span>
+            <h3 class="project-slide-title">Real-Time Object Detection</h3>
+            <p class="project-slide-desc">YOLOv8-powered real-time detection. 92% mAP, 45 FPS on edge device.</p>
+          </div>
+        </a>
+
+        <!-- Slide 3 -->
+        <a href="projects/sales-dashboard.html" class="project-slide reveal reveal-delay-3"
+          style="text-decoration: none; color: inherit; display: block;">
+          <img src="assets/images/project-dashboard.png" alt="Dashboard" />
+          <div class="project-slide-info">
+            <span class="project-slide-tag">Analytics · Plotly · PostgreSQL</span>
+            <h3 class="project-slide-title">Sales Intelligence Dashboard</h3>
+            <p class="project-slide-desc">Interactive analytics on 3M+ transactions with drill-down and predictive
+              insights.</p>
+          </div>
+        </a>
+
+        <!-- Slide 4 -->
+        <a href="projects/credit-risk.html" class="project-slide reveal reveal-delay-1"
+          style="text-decoration: none; color: inherit; display: block;">
+          <img src="assets/images/project-ml.png" alt="Credit Risk" />
+          <div class="project-slide-info">
+            <span class="project-slide-tag">ML · XGBoost · LightGBM</span>
+            <h3 class="project-slide-title">Credit Risk Prediction</h3>
+            <p class="project-slide-desc">Ensemble model for credit default prediction. AUC-ROC: 0.96</p>
+          </div>
+        </a>
+
+        <!-- Slide 5 -->
+        <a href="projects/energy-forecasting.html" class="project-slide reveal reveal-delay-2"
+          style="text-decoration: none; color: inherit; display: block;">
+          <img src="assets/images/project-timeseries.png" alt="Forecasting" />
+          <div class="project-slide-info">
+            <span class="project-slide-tag">Time Series · LSTM · Prophet</span>
+            <h3 class="project-slide-title">Energy Demand Forecasting</h3>
+            <p class="project-slide-desc">30-day electricity demand forecasting. MAPE: 3.2%</p>
+          </div>
+        </a>
+
+        <!-- Slide 6 -->
+        <a href="projects/recommender-system.html" class="project-slide reveal reveal-delay-3"
+          style="text-decoration: none; color: inherit; display: block;">
+          <img src="assets/images/project-recommender.png" alt="Recommender" />
+          <div class="project-slide-info">
+            <span class="project-slide-tag">ML · Collaborative Filtering · FastAPI</span>
+            <h3 class="project-slide-title">Hybrid Recommender System</h3>
+            <p class="project-slide-desc">Collaborative + content-based hybrid. CTR improved by 34%.</p>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       MARQUEE MIRING — diagonal scrolling text
+  ══════════════════════════════════════ -->
+  <div class="marquee-diagonal-section">
+    <div class="marquee-diagonal-track">
+      <!-- Row 1 — left to right -->
+      <div class="marquee-row">
+        <span class="marquee-word solid">Machine Learning</span>
+        <span class="sep">—</span>
+        <span class="marquee-word outline">Deep Learning</span>
+        <span class="sep">—</span>
+        <span class="marquee-word solid">Data Science</span>
+        <span class="sep">—</span>
+        <span class="marquee-word outline">NLP</span>
+        <span class="sep">—</span>
+        <span class="marquee-word solid">Machine Learning</span>
+        <span class="sep">—</span>
+        <span class="marquee-word outline">Deep Learning</span>
+        <span class="sep">—</span>
+        <span class="marquee-word solid">Data Science</span>
+        <span class="sep">—</span>
+        <span class="marquee-word outline">NLP</span>
+        <span class="sep">—</span>
+      </div>
+      <!-- Row 2 — right to left -->
+      <div class="marquee-row">
+        <span class="marquee-word outline">Computer Vision</span>
+        <span class="sep">—</span>
+        <span class="marquee-word solid">AI Engineer</span>
+        <span class="sep">—</span>
+        <span class="marquee-word outline">Neural Networks</span>
+        <span class="sep">—</span>
+        <span class="marquee-word solid">Python</span>
+        <span class="sep">—</span>
+        <span class="marquee-word outline">Computer Vision</span>
+        <span class="sep">—</span>
+        <span class="marquee-word solid">AI Engineer</span>
+        <span class="sep">—</span>
+        <span class="marquee-word outline">Neural Networks</span>
+        <span class="sep">—</span>
+        <span class="marquee-word solid">Python</span>
+        <span class="sep">—</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       ALL PROJECTS LIST — row style with reveal thumb
+  ══════════════════════════════════════ -->
+  <section class="all-projects-section">
+    <div class="container">
+      <p class="section-label reveal">All Work</p>
+      <h2 class="reveal" style="color: var(--white); margin-bottom: 40px;">Full Project List</h2>
+
+      <div class="projects-list">
+
+        <a href="projects/sentiment-analysis.html" class="project-row reveal" style="text-decoration: none;">
+          <span class="project-row-num">01</span>
+          <div class="project-row-thumb"><img src="assets/images/project-nlp.png" alt="" /></div>
+          <span class="project-row-name">Sentiment Analysis Engine</span>
+          <div class="project-row-stack">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
+              <path
+                d="M1.292 5.856L11.54 0v24l-4.095-2.378V7.603l-6.168 3.564.015-5.31zM12.46 0l10.248 5.856.015 5.31-6.168-3.564v14.02L12.46 24V0z" />
+            </svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
+              <path
+                d="M12.005 0L4.952 7.053a9.865 9.865 0 000 13.942 9.866 9.866 0 0013.942 0 9.866 9.866 0 000-13.942L16.53 9.418a5.922 5.922 0 010 8.365 5.924 5.924 0 01-8.366 0 5.922 5.922 0 010-8.365l3.84-3.84zM15.121 0a1.207 1.207 0 110 2.414 1.207 1.207 0 010-2.414z" />
+            </svg>
+          </div>
+          <span class="project-row-tag">NLP</span>
+          <span class="project-row-arrow">→</span>
+        </a>
+
+        <a href="projects/object-detection.html" class="project-row reveal reveal-delay-1"
+          style="text-decoration: none;">
+          <span class="project-row-num">02</span>
+          <div class="project-row-thumb"><img src="assets/images/project-cv.png" alt="" /></div>
+          <span class="project-row-name">Real-Time Object Detection</span>
+          <div class="project-row-stack">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
+              <path
+                d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm-.5 4.5c1.984 0 3.5.896 3.5 2v1h-7v-1c0-1.104 1.516-2 3.5-2zm-6 6.5h13v1c0 3.59-2.91 6.5-6.5 6.5S6 15.59 6 12v-1zm6.5 5a1 1 0 100-2 1 1 0 000 2z" />
+            </svg>
+          </div>
+          <span class="project-row-tag">Computer Vision</span>
+          <span class="project-row-arrow">→</span>
+        </a>
+
+        <a href="projects/sales-dashboard.html" class="project-row reveal reveal-delay-2"
+          style="text-decoration: none;">
+          <span class="project-row-num">03</span>
+          <div class="project-row-thumb"><img src="assets/images/project-dashboard.png" alt="" /></div>
+          <span class="project-row-name">Sales Intelligence Dashboard</span>
+          <div class="project-row-stack">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
+              <path d="M9 3h2v18H9zm4 0h2v18h-2zM4 10h3v2H4zm13 0h3v2h-3zM4 12h3v2H4zm13 0h3v2h-3z" />
+            </svg>
+          </div>
+          <span class="project-row-tag">Analytics</span>
+          <span class="project-row-arrow">→</span>
+        </a>
+
+        <a href="projects/credit-risk.html" class="project-row reveal reveal-delay-1" style="text-decoration: none;">
+          <span class="project-row-num">04</span>
+          <div class="project-row-thumb"><img src="assets/images/project-ml.png" alt="" /></div>
+          <span class="project-row-name">Credit Risk Prediction Model</span>
+          <div class="project-row-stack">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
+              <circle cx="12" cy="12" r="3" />
+              <path
+                d="M12 2v3M12 19v3M2 12h3M19 12h3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12" />
+            </svg>
+          </div>
+          <span class="project-row-tag">Machine Learning</span>
+          <span class="project-row-arrow">→</span>
+        </a>
+
+        <a href="projects/energy-forecasting.html" class="project-row reveal reveal-delay-2"
+          style="text-decoration: none;">
+          <span class="project-row-num">05</span>
+          <div class="project-row-thumb"><img src="assets/images/project-timeseries.png" alt="" /></div>
+          <span class="project-row-name">Energy Demand Forecasting</span>
+          <div class="project-row-stack">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
+              <path
+                d="M1.292 5.856L11.54 0v24l-4.095-2.378V7.603l-6.168 3.564.015-5.31zM12.46 0l10.248 5.856.015 5.31-6.168-3.564v14.02L12.46 24V0z" />
+            </svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+            </svg>
+          </div>
+          <span class="project-row-tag">Time Series</span>
+          <span class="project-row-arrow">→</span>
+        </a>
+
+        <a href="projects/recommender-system.html" class="project-row reveal reveal-delay-3"
+          style="text-decoration: none;">
+          <span class="project-row-num">06</span>
+          <div class="project-row-thumb"><img src="assets/images/project-recommender.png" alt="" /></div>
+          <span class="project-row-name">Hybrid Recommender System</span>
+          <div class="project-row-stack">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
+              <path
+                d="M12.005 0L4.952 7.053a9.865 9.865 0 000 13.942 9.866 9.866 0 0013.942 0 9.866 9.866 0 000-13.942L16.53 9.418a5.922 5.922 0 010 8.365 5.924 5.924 0 01-8.366 0 5.922 5.922 0 010-8.365l3.84-3.84zM15.121 0a1.207 1.207 0 110 2.414 1.207 1.207 0 010-2.414z" />
+            </svg>
+          </div>
+          <span class="project-row-tag">Machine Learning</span>
+          <span class="project-row-arrow">→</span>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Footer ─── -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <p>© 2025 Hauzan Ziyadatul Khoir</p>
+        <div class="footer-links">
+          <a href="index.html" class="footer-link">Home</a>
+          <a href="projects.html" class="footer-link">Projects</a>
+          <a href="certificates.html" class="footer-link">Certificates</a>
+          <a href="about.html" class="footer-link">About</a>
+          <a href="mailto:hauzanziyadk@gmail.com" class="footer-link">Contact</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    // ─── Slider ───
+    const track = document.getElementById('sliderTrack');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    let currentIndex = 0;
+    const totalSlides = track.children.length;
+    const visibleCount = window.innerWidth <= 480 ? 1 : window.innerWidth <= 768 ? 1.2 : 3;
+
+    function getSlideWidth() {
+      return track.children[0].getBoundingClientRect().width + 20; // gap
+    }
+
+    function updateSlider() {
+      const maxIndex = totalSlides - Math.floor(visibleCount);
+      currentIndex = Math.max(0, Math.min(currentIndex, maxIndex));
+      track.style.transform = `translateX(-${currentIndex * getSlideWidth()}px)`;
+    }
+
+    nextBtn.addEventListener('click', () => { currentIndex++; updateSlider(); });
+    prevBtn.addEventListener('click', () => { currentIndex--; updateSlider(); });
+    window.addEventListener('resize', updateSlider);
+  </script>
+</body>
+
+</html>

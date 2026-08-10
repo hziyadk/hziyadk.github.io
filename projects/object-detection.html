@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Real-Time Object Detection — Hauzan Ziyadatul Khoir</title>
+  <meta name="description" content="YOLOv8-powered real-time object detection system for video stream analysis with 92% mAP accuracy." />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⬛</text></svg>" />
+  <style>
+    .detail-back { padding: calc(var(--nav-h) + 32px) 0 0; }
+    .back-link { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-dim); letter-spacing: 0.08em; text-transform: uppercase; transition: var(--transition-fast); }
+    .back-link:hover { color: var(--white); }
+    .back-link .arrow { transition: var(--transition-fast); }
+    .back-link:hover .arrow { transform: translateX(-4px); }
+    .detail-hero { padding: 48px 0 80px; display: grid; grid-template-columns: 1fr 480px; gap: 64px; align-items: center; }
+    .detail-meta { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+    .detail-tag { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.12em; padding: 5px 14px; border: 1px solid var(--border); border-radius: var(--radius-full); }
+    .detail-year { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-dim); }
+    .detail-title { font-size: clamp(2.8rem, 6vw, 5.5rem); font-weight: 700; color: var(--white); letter-spacing: -0.04em; line-height: 1; margin-bottom: 28px; }
+    .detail-tagline { font-size: 1.1rem; color: var(--text-muted); line-height: 1.7; max-width: 520px; margin-bottom: 36px; }
+    .detail-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+    .detail-hero-img { border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--border); aspect-ratio: 4/3; }
+    .detail-hero-img img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(30%); }
+    .divider { border: none; border-top: 1px solid var(--border); margin: 0; }
+    .detail-section { padding: 80px 0; }
+    .detail-section-inner { display: grid; grid-template-columns: 200px 1fr; gap: 48px; }
+    .detail-section-label { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.15em; padding-top: 6px; }
+    .detail-section-body h3 { font-size: clamp(1.5rem, 3vw, 2rem); color: var(--white); margin-bottom: 20px; letter-spacing: -0.03em; }
+    .detail-section-body p { font-size: 1rem; line-height: 1.8; margin-bottom: 16px; }
+    .detail-fullwidth-img { width: 100%; aspect-ratio: 21/9; object-fit: cover; display: block; filter: grayscale(40%); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .approach-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 8px; }
+    .approach-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 28px; transition: var(--transition-fast); }
+    .approach-card:hover { border-color: var(--border-hover); }
+    .approach-num { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-dim); margin-bottom: 12px; letter-spacing: 0.1em; }
+    .approach-card h4 { font-family: var(--font-display); font-size: 1rem; font-weight: 600; color: var(--white); margin-bottom: 8px; letter-spacing: -0.02em; }
+    .approach-card p { font-size: 0.875rem; margin: 0; }
+    .metrics-row { display: flex; gap: 0; margin-top: 8px; border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+    .metric-item { flex: 1; padding: 36px 32px; border-right: 1px solid var(--border); transition: var(--transition-fast); }
+    .metric-item:last-child { border-right: none; }
+    .metric-item:hover { background: var(--surface); }
+    .metric-num { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 700; color: var(--white); letter-spacing: -0.04em; line-height: 1; margin-bottom: 8px; }
+    .metric-label { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.12em; }
+    .metric-desc { font-size: 0.82rem; margin-top: 6px; }
+    .tech-stack-grid { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
+    .tech-chip { display: inline-flex; align-items: center; gap: 10px; padding: 10px 20px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); font-family: var(--font-display); font-size: 0.9rem; font-weight: 500; color: var(--text); transition: var(--transition-fast); }
+    .tech-chip:hover { border-color: var(--border-hover); color: var(--white); }
+    .project-nav { padding: 64px 0; border-top: 1px solid var(--border); display: grid; grid-template-columns: 1fr 1fr; }
+    .project-nav-item { padding: 32px; transition: var(--transition-fast); border-radius: var(--radius-md); }
+    .project-nav-item:hover { background: var(--surface); }
+    .project-nav-item.next { text-align: right; border-left: 1px solid var(--border); }
+    .project-nav-dir { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 8px; }
+    .project-nav-item.next .project-nav-dir { text-align: right; }
+    .project-nav-title { font-family: var(--font-display); font-size: clamp(1.2rem, 2.5vw, 1.8rem); font-weight: 700; color: var(--white); letter-spacing: -0.03em; }
+    @media (max-width: 900px) { .detail-hero { grid-template-columns: 1fr; } .detail-hero-img { display: none; } .detail-section-inner { grid-template-columns: 1fr; gap: 16px; } .approach-grid { grid-template-columns: 1fr; } .metrics-row { flex-wrap: wrap; } }
+  </style>
+</head>
+<body class="page-enter">
+  <nav class="navbar scrolled" id="navbar">
+    <div class="navbar-inner">
+      <a href="../index.html" class="logo">Hauzan<span>.</span></a>
+      <div class="nav-links" id="navLinks">
+        <a href="../projects.html" class="nav-link active">Projects</a>
+        <a href="../about.html" class="nav-link">About</a>
+        <a href="mailto:hauzanziyadk@gmail.com" class="btn btn-email">hauzanziyadk@gmail.com</a>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+
+  <div class="detail-back">
+    <div class="container">
+      <a href="../projects.html" class="back-link"><span class="arrow">←</span> All Projects</a>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="detail-hero">
+      <div>
+        <div class="detail-meta reveal">
+          <span class="detail-tag">Computer Vision</span>
+          <span class="detail-year">2024</span>
+        </div>
+        <h1 class="detail-title reveal">Real-Time Object Detection</h1>
+        <p class="detail-tagline reveal">YOLOv8-powered detection system for real-time video stream analysis achieving 92% mAP at 45 FPS on edge hardware. Deployed for industrial quality control.</p>
+        <div class="detail-ctas reveal">
+          <a href="https://github.com/hauzanziyadk" target="_blank" class="btn btn-primary">↗ View on GitHub</a>
+          <a href="../projects.html" class="btn btn-outline">← All Projects</a>
+        </div>
+      </div>
+      <div class="detail-hero-img reveal">
+        <img src="../assets/images/project-cv.png" alt="Object Detection" />
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+  <img src="../assets/images/project-cv.png" alt="Project Overview" class="detail-fullwidth-img" />
+
+  <div class="container">
+    <div class="detail-section">
+      <div class="detail-section-inner">
+        <div class="detail-section-label reveal">The Problem</div>
+        <div class="detail-section-body reveal">
+          <h3>Detecting defects faster than the human eye</h3>
+          <p>A manufacturing client needed to automate quality control inspection on a conveyor belt running at 2m/s. Human inspectors were catching only ~70% of defects and fatiguing within hours. The challenge: build a vision system that runs in real-time on NVIDIA Jetson hardware without internet connectivity.</p>
+          <p>The system needed to detect 12 defect classes simultaneously across varying lighting conditions, with less than 50ms latency per frame to not block the production line.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <div class="container">
+    <div class="detail-section">
+      <div class="detail-section-inner">
+        <div class="detail-section-label reveal">Approach</div>
+        <div class="detail-section-body">
+          <h3 class="reveal">Engineering pipeline</h3>
+          <div class="approach-grid">
+            <div class="approach-card reveal reveal-delay-1">
+              <div class="approach-num">01 / Data Acquisition</div>
+              <h4>15K Annotated Frames</h4>
+              <p>Captured 15,000 frames from production line cameras. Used Roboflow for bounding box annotation across 12 defect classes.</p>
+            </div>
+            <div class="approach-card reveal reveal-delay-2">
+              <div class="approach-num">02 / Augmentation</div>
+              <h4>Synthetic Data Pipeline</h4>
+              <p>Applied mosaic augmentation, random brightness, and perspective transforms to simulate real factory lighting variations.</p>
+            </div>
+            <div class="approach-card reveal reveal-delay-3">
+              <div class="approach-num">03 / Training</div>
+              <h4>YOLOv8-m Fine-tuning</h4>
+              <p>Fine-tuned YOLOv8-medium on custom dataset. Used cosine annealing LR schedule with early stopping on validation mAP.</p>
+            </div>
+            <div class="approach-card reveal reveal-delay-1">
+              <div class="approach-num">04 / Optimization</div>
+              <h4>TensorRT Export</h4>
+              <p>Exported model to TensorRT FP16 for 3× speedup on Jetson Orin. Achieved 45 FPS real-time inference on edge device.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <div class="container">
+    <div class="detail-section">
+      <div class="detail-section-inner">
+        <div class="detail-section-label reveal">Results</div>
+        <div class="detail-section-body">
+          <h3 class="reveal">Key Metrics</h3>
+          <div class="metrics-row reveal">
+            <div class="metric-item">
+              <div class="metric-num">92%</div>
+              <div class="metric-label">mAP@50</div>
+              <p class="metric-desc">Across all 12 defect classes</p>
+            </div>
+            <div class="metric-item">
+              <div class="metric-num">45 FPS</div>
+              <div class="metric-label">Inference Speed</div>
+              <p class="metric-desc">On NVIDIA Jetson Orin</p>
+            </div>
+            <div class="metric-item">
+              <div class="metric-num">97%</div>
+              <div class="metric-label">Defect Detection Rate</div>
+              <p class="metric-desc">vs 70% manual baseline</p>
+            </div>
+            <div class="metric-item">
+              <div class="metric-num">22ms</div>
+              <div class="metric-label">Avg Latency</div>
+              <p class="metric-desc">TensorRT FP16</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <div class="container">
+    <div class="detail-section">
+      <div class="detail-section-inner">
+        <div class="detail-section-label reveal">Tech Stack</div>
+        <div class="detail-section-body">
+          <h3 class="reveal">Tools & Libraries</h3>
+          <div class="tech-stack-grid reveal">
+            <span class="tech-chip">YOLOv8 (Ultralytics)</span>
+            <span class="tech-chip">OpenCV</span>
+            <span class="tech-chip">TensorRT</span>
+            <span class="tech-chip">Python</span>
+            <span class="tech-chip">Roboflow</span>
+            <span class="tech-chip">CUDA</span>
+            <span class="tech-chip">NumPy</span>
+            <span class="tech-chip">Docker</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="project-nav">
+      <a href="sentiment-analysis.html" class="project-nav-item reveal">
+        <div class="project-nav-dir">← Previous</div>
+        <div class="project-nav-title">Sentiment Analysis Engine</div>
+      </a>
+      <a href="sales-dashboard.html" class="project-nav-item next reveal">
+        <div class="project-nav-dir">Next →</div>
+        <div class="project-nav-title">Sales Intelligence Dashboard</div>
+      </a>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <p>© 2025 Hauzan Ziyadatul Khoir · GitHub Pages</p>
+        <div class="footer-links">
+          <a href="../index.html" class="footer-link">Home</a>
+          <a href="../projects.html" class="footer-link">Projects</a>
+          <a href="../about.html" class="footer-link">About</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script src="../script.js"></script>
+</body>
+</html>

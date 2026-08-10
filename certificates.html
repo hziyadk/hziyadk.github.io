@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Certificates — Hauzan Ziyadatul Khoir</title>
+  <meta name="description" content="Certificates and continuous learning achievements of Hauzan Ziyadatul Khoir." />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📜</text></svg>" />
+  <style>
+    .page-header {
+      padding: calc(var(--nav-h) + 80px) 32px 80px;
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto;
+      border-bottom: 1px solid var(--border);
+    }
+    .page-title {
+      font-size: clamp(3rem, 8vw, 5rem);
+      margin-bottom: 24px;
+      color: var(--white);
+      line-height: 1;
+      letter-spacing: -0.04em;
+    }
+    .page-subtitle {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .cert-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px;
+      padding: 80px 32px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .cert-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .cert-card:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-4px);
+    }
+
+    .cert-icon {
+      font-size: 2.5rem;
+      margin-bottom: 24px;
+      background: rgba(255, 255, 255, 0.03);
+      width: 64px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+    }
+
+    .cert-title {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
+
+    .cert-meta {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .cert-meta span {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .cert-link {
+      margin-top: auto;
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--white);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      align-self: flex-start;
+      transition: var(--transition-fast);
+    }
+    .cert-link::after {
+      content: '↗';
+      font-family: system-ui;
+      font-weight: 400;
+      color: var(--text-dim);
+      transition: var(--transition-fast);
+    }
+    .cert-link:hover { opacity: 0.8; }
+    .cert-link:hover::after { color: var(--white); transform: translate(2px, -2px); }
+
+  </style>
+</head>
+<body class="page-enter">
+
+  <!-- ─── Navbar ─── -->
+  <nav class="navbar" id="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" class="logo">Hauzan<span>.</span></a>
+      <div class="nav-links" id="navLinks">
+        <a href="projects.html" class="nav-link">Projects</a>
+        <a href="certificates.html" class="nav-link active">Certificates</a>
+        <a href="about.html" class="nav-link">About</a>
+        <a href="mailto:hauzanziyadk@gmail.com" class="btn btn-email">hauzanziyadk@gmail.com</a>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ─── Header ─── -->
+  <header class="page-header">
+    <h1 class="page-title reveal">Certificates</h1>
+    <p class="page-subtitle reveal">A showcase of continuous learning, professional certifications, and technical achievements.</p>
+  </header>
+
+  <!-- ─── Certificates Grid ─── -->
+  <main>
+    <div class="cert-grid">
+      
+      <!-- Certificate 1 -->
+      <a href="#" target="_blank" rel="noopener" class="cert-card reveal">
+        <div class="cert-icon">🎓</div>
+        <h2 class="cert-title">Data Science Professional Certificate</h2>
+        <div class="cert-meta">
+          <span>🏢 IBM / Coursera</span>
+          <span>📅 August 2023</span>
+        </div>
+        <span class="cert-link">View Credential</span>
+      </a>
+
+      <!-- Certificate 2 -->
+      <a href="#" target="_blank" rel="noopener" class="cert-card reveal reveal-delay-1">
+        <div class="cert-icon">☁️</div>
+        <h2 class="cert-title">Google Cloud Professional Machine Learning Engineer</h2>
+        <div class="cert-meta">
+          <span>🏢 Google Cloud</span>
+          <span>📅 January 2024</span>
+        </div>
+        <span class="cert-link">View Credential</span>
+      </a>
+
+      <!-- Certificate 3 -->
+      <a href="#" target="_blank" rel="noopener" class="cert-card reveal reveal-delay-2">
+        <div class="cert-icon">🤖</div>
+        <h2 class="cert-title">Deep Learning Specialization</h2>
+        <div class="cert-meta">
+          <span>🏢 DeepLearning.AI</span>
+          <span>📅 November 2023</span>
+        </div>
+        <span class="cert-link">View Credential</span>
+      </a>
+
+      <!-- Certificate 4 -->
+      <a href="#" target="_blank" rel="noopener" class="cert-card reveal">
+        <div class="cert-icon">📊</div>
+        <h2 class="cert-title">Data Analyst with Python Track</h2>
+        <div class="cert-meta">
+          <span>🏢 DataCamp</span>
+          <span>📅 May 2023</span>
+        </div>
+        <span class="cert-link">View Credential</span>
+      </a>
+
+      <!-- Certificate 5 -->
+      <a href="#" target="_blank" rel="noopener" class="cert-card reveal reveal-delay-1">
+        <div class="cert-icon">🏆</div>
+        <h2 class="cert-title">1st Place — National Data Science Hackathon</h2>
+        <div class="cert-meta">
+          <span>🏢 Tech Univ Indonesia</span>
+          <span>📅 September 2024</span>
+        </div>
+        <span class="cert-link">View Credential</span>
+      </a>
+
+      <!-- Certificate 6 -->
+      <a href="#" target="_blank" rel="noopener" class="cert-card reveal reveal-delay-2">
+        <div class="cert-icon">💻</div>
+        <h2 class="cert-title">SQL for Data Science</h2>
+        <div class="cert-meta">
+          <span>🏢 HackerRank</span>
+          <span>📅 March 2023</span>
+        </div>
+        <span class="cert-link">View Credential</span>
+      </a>
+
+    </div>
+  </main>
+
+  <!-- ─── CTA ─── -->
+  <div class="cta-section">
+    <div class="container">
+      <span class="cta-label reveal">Get In Touch</span>
+      <h2 class="cta-title reveal">Let's build something.</h2>
+      <div class="reveal" style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+        <a href="mailto:hauzanziyadk@gmail.com" class="btn btn-primary">✉️ &nbsp;hauzanziyadk@gmail.com</a>
+        <a href="about.html" class="btn btn-outline">About Me →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── Footer ─── -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <p>© 2025 Hauzan Ziyadatul Khoir</p>
+        <div class="footer-links">
+          <a href="index.html" class="footer-link">Home</a>
+          <a href="projects.html" class="footer-link">Projects</a>
+          <a href="certificates.html" class="footer-link">Certificates</a>
+          <a href="about.html" class="footer-link">About</a>
+          <a href="mailto:hauzanziyadk@gmail.com" class="footer-link">Contact</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

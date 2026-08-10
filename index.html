@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hauzan Ziyadatul Khoir — Data Scientist & AI Engineer</title>
+  <meta name="description"
+    content="Portfolio of Hauzan Ziyadatul Khoir, a Data Scientist and AI Engineer specializing in machine learning, NLP, computer vision, and data analytics." />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⬛</text></svg>" />
+  <style>
+    /* ═══════════════════════════════════════════
+       HERO — centered layout like bazil.fr
+    ═══════════════════════════════════════════ */
+    .hero {
+      min-height: 100vh;
+      padding-top: var(--nav-h);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Greeting line */
+    .hero-greeting {
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      letter-spacing: 0.02em;
+    }
+
+    /* The big title — full viewport width */
+    .hero-title {
+      width: 100%;
+      line-height: 0.95;
+      margin-bottom: 0;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-title .line-solid,
+    .hero-title .line-outline {
+      display: block;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      color: transparent;
+      -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.4);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: default;
+    }
+
+    .hero-title .line-solid {
+      font-size: clamp(5rem, 14vw, 12rem);
+    }
+
+    .hero-title .line-outline {
+      font-size: clamp(4rem, 12vw, 10.5rem);
+    }
+
+    .hero-title .line-solid:hover,
+    .hero-title .line-outline:hover {
+      color: var(--white);
+      -webkit-text-stroke: 1.5px transparent;
+    }
+
+    /* Photo — sits behind the typography */
+    .hero-photo {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: clamp(240px, 30vw, 400px);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .hero-photo img {
+      width: 100%;
+      display: block;
+      mask-image: linear-gradient(to top, transparent 0%, rgba(0, 0, 0, 0.2) 15%, black 45%);
+      -webkit-mask-image: linear-gradient(to top, transparent 0%, rgba(0, 0, 0, 0.2) 15%, black 45%);
+      filter: grayscale(60%) contrast(0.9);
+      opacity: 0.75;
+    }
+
+    /* Sub-row: location left, CTA buttons right */
+    .hero-sub {
+      width: 100%;
+      max-width: 1200px;
+      padding: 0 32px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-top: 28px;
+      position: relative;
+      z-index: 3;
+    }
+
+    .hero-location {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      color: var(--text-muted);
+      font-weight: 400;
+      text-align: left;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 10px;
+    }
+
+    /* Stats bar at bottom */
+    .hero-stats {
+      display: flex;
+      gap: 56px;
+      margin-top: 48px;
+      padding-top: 40px;
+      border-top: 1px solid var(--border);
+      width: 100%;
+      max-width: 1200px;
+      padding-left: 32px;
+      padding-right: 32px;
+      justify-content: flex-start;
+      position: relative;
+      z-index: 3;
+    }
+
+    .stat-num {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--white);
+    }
+
+    .stat-label {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      margin-top: 2px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    /* ═══ Featured Projects ═══ */
+    .featured-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    /* ═══ Skills Grid ═══ */
+    .skills-group {
+      margin-bottom: 36px;
+    }
+
+    .skills-group-label {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-bottom: 12px;
+    }
+
+    .skills-flex {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    /* ═══ CTA Section ═══ */
+    .cta-section {
+      text-align: center;
+      padding: 120px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .cta-label {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .cta-title {
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -0.04em;
+      margin-bottom: 36px;
+      line-height: 1.05;
+    }
+
+    /* ═══ Responsive ═══ */
+    @media (max-width: 768px) {
+      .hero-title .line-solid {
+        font-size: clamp(3rem, 15vw, 6rem);
+      }
+
+      .hero-title .line-outline {
+        font-size: clamp(2.5rem, 13vw, 5rem);
+      }
+
+      .hero-sub {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .hero-location {
+        text-align: center;
+      }
+
+      .hero-stats {
+        gap: 28px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .hero-photo {
+        width: 70vw;
+      }
+
+      .featured-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body class="page-enter">
+
+  <!-- ─── Navbar ─── -->
+  <nav class="navbar" id="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" class="logo">Hauzan<span>.</span></a>
+      <div class="nav-links" id="navLinks">
+        <a href="projects.html" class="nav-link">Projects</a>
+        <a href="certificates.html" class="nav-link">Certificates</a>
+        <a href="about.html" class="nav-link">About</a>
+        <a href="mailto:hauzanziyadk@gmail.com" class="btn btn-email">hauzanziyadk@gmail.com</a>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ════════════════════════════════════════════
+       HERO — Centered, photo behind text
+  ════════════════════════════════════════════ -->
+  <section class="hero">
+
+    <!-- Greeting -->
+    <p class="hero-greeting reveal">👋 &nbsp; Hi, I'm Hauzan and I am a</p>
+
+    <!-- Big title — sits over the photo -->
+    <h1 class="hero-title reveal">
+      <span class="line-solid">Data Scientist</span>
+      <span class="line-outline">&amp; AI Engineer</span>
+    </h1>
+
+    <!-- Photo behind text -->
+    <div class="hero-photo">
+      <img src="assets/images/profile.png" alt="Hauzan Ziyadatul Khoir" />
+    </div>
+
+    <!-- Location + CTAs row -->
+    <div class="hero-sub reveal">
+      <p class="hero-location">Based in Indonesia.</p>
+      <div class="hero-ctas">
+        <a href="projects.html" class="btn btn-primary">View Projects</a>
+        <a href="about.html" class="btn btn-outline">About Me</a>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="hero-stats reveal">
+      <div>
+        <div class="stat-num">6+</div>
+        <div class="stat-label">Projects</div>
+      </div>
+      <div>
+        <div class="stat-num">3+</div>
+        <div class="stat-label">Years</div>
+      </div>
+      <div>
+        <div class="stat-num">ML / AI</div>
+        <div class="stat-label">Focused</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       TECH MARQUEE — logos + text, white
+  ══════════════════════════════════════ -->
+  <div class="tech-marquee">
+    <div class="tech-track" id="techTrack">
+      <!-- Using SVG inline logos (white) for common DS/AI tech -->
+      <div class="tech-item">
+        <svg class="tech-logo" viewBox="0 0 24 24" fill="white">
+          <path
+            d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm-.5 4.5c1.984 0 3.5.896 3.5 2v1h-7v-1c0-1.104 1.516-2 3.5-2zm-6 6.5h13v1c0 3.59-2.91 6.5-6.5 6.5S6 15.59 6 12v-1zm6.5 5a1 1 0 100-2 1 1 0 000 2z" />
+        </svg>
+        <span class="tech-name">Python</span>
+      </div>
+      <span class="tech-sep"></span>
+      <div class="tech-item">
+        <svg class="tech-logo" viewBox="0 0 24 24" fill="white">
+          <path
+            d="M1.292 5.856L11.54 0v24l-4.095-2.378V7.603l-6.168 3.564.015-5.31zM12.46 0l10.248 5.856.015 5.31-6.168-3.564v14.02L12.46 24V0z" />
+        </svg>
+        <span class="tech-name">TensorFlow</span>
+      </div>
+      <span class="tech-sep"></span>
+      <div class="tech-item">
+        <svg class="tech-logo" viewBox="0 0 24 24" fill="white">
+          <path
+            d="M12.005 0L4.952 7.053a9.865 9.865 0 000 13.942 9.866 9.866 0 0013.942 0 9.866 9.866 0 000-13.942L16.53 9.418a5.922 5.922 0 010 8.365 5.924 5.924 0 01-8.366 0 5.922 5.922 0 010-8.365l3.84-3.84zM15.121 0a1.207 1.207 0 110 2.414 1.207 1.207 0 010-2.414z" />
+        </svg>
+        <span class="tech-name">PyTorch</span>
+      </div>
+      <span class="tech-sep"></span>
+      <div class="tech-item">
+        <svg class="tech-logo" viewBox="0 0 24 24" fill="white">
+          <path d="M9 3h2v18H9zm4 0h2v18h-2zM4 10h3v2H4zm13 0h3v2h-3zM4 12h3v2H4zm13 0h3v2h-3z" />
+        </svg>
+        <span class="tech-name">Pandas</span>
+      </div>
+      <span class="tech-sep"></span>
+      <div class="tech-item">
+        <svg class="tech-logo" viewBox="0 0 24 24" fill="white">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+        </svg>
+        <span class="tech-name">NumPy</span>
+      </div>
+      <span class="tech-sep"></span>
+      <div class="tech-item">
+        <svg class="tech-logo" viewBox="0 0 24 24" fill="white">
+          <circle cx="12" cy="12" r="3" />
+          <path
+            d="M12 2v3M12 19v3M2 12h3M19 12h3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12" />
+        </svg>
+        <span class="tech-name">Scikit-learn</span>
+      </div>
+      <span class="tech-sep"></span>
+      <div class="tech-item">
+        <svg class="tech-logo" viewBox="0 0 24 24" fill="white">
+          <circle cx="9" cy="9" r="1.5" />
+          <circle cx="15" cy="9" r="1.5" />
+          <path d="M12 17.5c-2.5 0-4.5-1.5-5-3.5h10c-.5 2-2.5 3.5-5 3.5z" />
+          <circle cx="12" cy="12" r="10" fill="none" stroke="white" stroke-width="1.5" />
+        </svg>
+        <span class="tech-name">HuggingFace</span>
+      </div>
+      <span class="tech-sep"></span>
+      <div class="tech-item">
+        <svg class="tech-logo" viewBox="0 0 24 24" fill="white">
+          <path
+            d="M13.5 6.5h2v2h-2zM10.5 6.5h2v2h-2zM7.5 6.5h2v2h-2zM13.5 9.5h2v2h-2zM10.5 9.5h2v2h-2zM7.5 9.5h2v2h-2zM4.5 9.5h2v2h-2zM16.5 9.5h2v2h-2zM23 11.5c-.7-.4-1.6-.5-2.5-.3-.2-1-1-1.8-2-2.2v-.5h-2v2h-14s-.5 2.5 1 4c.8.8 2 1.2 3 1.3l-.4.2c-.6.3-1.1.9-1.1 1.8 0 1.1.9 2 2 2s2-.9 2-2c0-.2 0-.3-.1-.5H14c0 .2-.1.3-.1.5 0 1.1.9 2 2 2s2-.9 2-2c0-.9-.5-1.6-1.2-1.9l-.3-.1c1.1-.1 2.2-.5 3-1.3.9-.9 1.2-2 1.2-2.9l.1-.1h.1c.5 0 .9-.1 1.2-.2z" />
+        </svg>
+        <span class="tech-name">Docker</span>
+      </div>
+      <span class="tech-sep"></span>
+      <div class="tech-item">
+        <svg class="tech-logo" viewBox="0 0 24 24" fill="white">
+          <ellipse cx="12" cy="6" rx="8" ry="3" />
+          <path d="M4 6v4c0 1.66 3.58 3 8 3s8-1.34 8-3V6M4 10v4c0 1.66 3.58 3 8 3s8-1.34 8-3v-4" />
+        </svg>
+        <span class="tech-name">SQL</span>
+      </div>
+      <span class="tech-sep"></span>
+      <!-- Duplicate for seamless loop -->
+      <div class="tech-item">
+        <svg class="tech-logo" viewBox="0 0 24 24" fill="white">
+          <path
+            d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm-.5 4.5c1.984 0 3.5.896 3.5 2v1h-7v-1c0-1.104 1.516-2 3.5-2zm-6 6.5h13v1c0 3.59-2.91 6.5-6.5 6.5S6 15.59 6 12v-1zm6.5 5a1 1 0 100-2 1 1 0 000 2z" />
+        </svg>
+        <span class="tech-name">Python</span>
+      </div>
+      <span class="tech-sep"></span>
+      <div class="tech-item">
+        <svg class="tech-logo" viewBox="0 0 24 24" fill="white">
+          <path
+            d="M1.292 5.856L11.54 0v24l-4.095-2.378V7.603l-6.168 3.564.015-5.31zM12.46 0l10.248 5.856.015 5.31-6.168-3.564v14.02L12.46 24V0z" />
+        </svg>
+        <span class="tech-name">TensorFlow</span>
+      </div>
+      <span class="tech-sep"></span>
+      <div class="tech-item">
+        <svg class="tech-logo" viewBox="0 0 24 24" fill="white">
+          <path
+            d="M12.005 0L4.952 7.053a9.865 9.865 0 000 13.942 9.866 9.866 0 0013.942 0 9.866 9.866 0 000-13.942L16.53 9.418a5.922 5.922 0 010 8.365 5.924 5.924 0 01-8.366 0 5.922 5.922 0 010-8.365l3.84-3.84zM15.121 0a1.207 1.207 0 110 2.414 1.207 1.207 0 010-2.414z" />
+        </svg>
+        <span class="tech-name">PyTorch</span>
+      </div>
+      <span class="tech-sep"></span>
+      <div class="tech-item">
+        <svg class="tech-logo" viewBox="0 0 24 24" fill="white">
+          <path d="M9 3h2v18H9zm4 0h2v18h-2zM4 10h3v2H4zm13 0h3v2h-3zM4 12h3v2H4zm13 0h3v2h-3z" />
+        </svg>
+        <span class="tech-name">Pandas</span>
+      </div>
+      <span class="tech-sep"></span>
+      <div class="tech-item">
+        <svg class="tech-logo" viewBox="0 0 24 24" fill="white">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+        </svg>
+        <span class="tech-name">NumPy</span>
+      </div>
+      <span class="tech-sep"></span>
+      <div class="tech-item">
+        <svg class="tech-logo" viewBox="0 0 24 24" fill="white">
+          <circle cx="12" cy="12" r="3" />
+          <path
+            d="M12 2v3M12 19v3M2 12h3M19 12h3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12" />
+        </svg>
+        <span class="tech-name">Scikit-learn</span>
+      </div>
+      <span class="tech-sep"></span>
+      <div class="tech-item">
+        <svg class="tech-logo" viewBox="0 0 24 24" fill="white">
+          <circle cx="9" cy="9" r="1.5" />
+          <circle cx="15" cy="9" r="1.5" />
+          <path d="M12 17.5c-2.5 0-4.5-1.5-5-3.5h10c-.5 2-2.5 3.5-5 3.5z" />
+          <circle cx="12" cy="12" r="10" fill="none" stroke="white" stroke-width="1.5" />
+        </svg>
+        <span class="tech-name">HuggingFace</span>
+      </div>
+      <span class="tech-sep"></span>
+      <div class="tech-item">
+        <svg class="tech-logo" viewBox="0 0 24 24" fill="white">
+          <path
+            d="M13.5 6.5h2v2h-2zM10.5 6.5h2v2h-2zM7.5 6.5h2v2h-2zM13.5 9.5h2v2h-2zM10.5 9.5h2v2h-2zM7.5 9.5h2v2h-2zM4.5 9.5h2v2h-2zM16.5 9.5h2v2h-2zM23 11.5c-.7-.4-1.6-.5-2.5-.3-.2-1-1-1.8-2-2.2v-.5h-2v2h-14s-.5 2.5 1 4c.8.8 2 1.2 3 1.3l-.4.2c-.6.3-1.1.9-1.1 1.8 0 1.1.9 2 2 2s2-.9 2-2c0-.2 0-.3-.1-.5H14c0 .2-.1.3-.1.5 0 1.1.9 2 2 2s2-.9 2-2c0-.9-.5-1.6-1.2-1.9l-.3-.1c1.1-.1 2.2-.5 3-1.3.9-.9 1.2-2 1.2-2.9l.1-.1h.1c.5 0 .9-.1 1.2-.2z" />
+        </svg>
+        <span class="tech-name">Docker</span>
+      </div>
+      <span class="tech-sep"></span>
+      <div class="tech-item">
+        <svg class="tech-logo" viewBox="0 0 24 24" fill="white">
+          <ellipse cx="12" cy="6" rx="8" ry="3" />
+          <path d="M4 6v4c0 1.66 3.58 3 8 3s8-1.34 8-3V6M4 10v4c0 1.66 3.58 3 8 3s8-1.34 8-3v-4" />
+        </svg>
+        <span class="tech-name">SQL</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── Featured Projects ─── -->
+  <section class="section">
+    <div class="container">
+      <div style="display:flex; align-items:flex-end; justify-content:space-between; margin-bottom: 40px;">
+        <div>
+          <p class="section-label reveal">Selected Work</p>
+          <h2 class="reveal" style="color: var(--white);">Featured Projects</h2>
+        </div>
+        <a href="projects.html" class="btn btn-outline reveal" style="flex-shrink:0;">View All →</a>
+      </div>
+
+      <div class="featured-grid">
+        <a href="projects.html" class="card reveal reveal-delay-1">
+          <img src="assets/images/project-nlp.png" alt="NLP Sentiment" class="card-img" />
+          <div class="card-body">
+            <span class="card-tag">NLP</span>
+            <h3 style="margin-bottom:8px; color: var(--white);">Sentiment Analysis Engine</h3>
+            <p style="font-size:0.875rem;">Multi-class sentiment classification using transformer-based models on
+              Indonesian social media text.</p>
+          </div>
+        </a>
+        <a href="projects.html" class="card reveal reveal-delay-2">
+          <img src="assets/images/project-cv.png" alt="Computer Vision" class="card-img" />
+          <div class="card-body">
+            <span class="card-tag">Computer Vision</span>
+            <h3 style="margin-bottom:8px; color: var(--white);">Real-Time Object Detection</h3>
+            <p style="font-size:0.875rem;">YOLOv8-powered detection system for real-time video stream analysis with 92%
+              mAP accuracy.</p>
+          </div>
+        </a>
+        <a href="projects.html" class="card reveal reveal-delay-3">
+          <img src="assets/images/project-dashboard.png" alt="Dashboard" class="card-img" />
+          <div class="card-body">
+            <span class="card-tag">Data Analytics</span>
+            <h3 style="margin-bottom:8px; color: var(--white);">Sales Intelligence Dashboard</h3>
+            <p style="font-size:0.875rem;">Interactive analytics dashboard with predictive insights built on 3M+
+              transaction records.</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Skills ─── -->
+  <section
+    style="background: var(--bg-2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 80px 0;">
+    <div class="container">
+      <p class="section-label reveal">Tech Stack</p>
+      <h2 class="reveal" style="color: var(--white); margin-bottom: 48px;">Tools I Work With</h2>
+
+      <div
+        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; margin-top: 32px;">
+        <!-- Card 1 -->
+        <div class="card reveal" style="padding: 32px; background: transparent;">
+          <h3
+            style="font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 24px; color: var(--text-muted); border-bottom: 1px solid var(--border); padding-bottom: 12px;">
+            Languages &amp; API</h3>
+          <ul
+            style="list-style: none; padding: 0; margin: 0; color: var(--white); font-family: var(--font-display); font-size: 1.05rem; line-height: 2; font-weight: 500;">
+            <li>Python</li>
+            <li>R</li>
+            <li>SQL</li>
+            <li>FastAPI</li>
+          </ul>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="card reveal reveal-delay-1" style="padding: 32px; background: transparent;">
+          <h3
+            style="font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 24px; color: var(--text-muted); border-bottom: 1px solid var(--border); padding-bottom: 12px;">
+            Machine Learning</h3>
+          <ul
+            style="list-style: none; padding: 0; margin: 0; color: var(--white); font-family: var(--font-display); font-size: 1.05rem; line-height: 2; font-weight: 500;">
+            <li>TensorFlow</li>
+            <li>PyTorch</li>
+            <li>HuggingFace</li>
+            <li>Scikit-learn</li>
+            <li>XGBoost</li>
+          </ul>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="card reveal reveal-delay-2" style="padding: 32px; background: transparent;">
+          <h3
+            style="font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 24px; color: var(--text-muted); border-bottom: 1px solid var(--border); padding-bottom: 12px;">
+            Data &amp; Viz</h3>
+          <ul
+            style="list-style: none; padding: 0; margin: 0; color: var(--white); font-family: var(--font-display); font-size: 1.05rem; line-height: 2; font-weight: 500;">
+            <li>Pandas</li>
+            <li>NumPy</li>
+            <li>Plotly</li>
+            <li>Matplotlib</li>
+            <li>Streamlit</li>
+          </ul>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="card reveal reveal-delay-3" style="padding: 32px; background: transparent;">
+          <h3
+            style="font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 24px; color: var(--text-muted); border-bottom: 1px solid var(--border); padding-bottom: 12px;">
+            Platforms</h3>
+          <ul
+            style="list-style: none; padding: 0; margin: 0; color: var(--white); font-family: var(--font-display); font-size: 1.05rem; line-height: 2; font-weight: 500;">
+            <li>Docker</li>
+            <li>Google Cloud</li>
+            <li>PostgreSQL</li>
+            <li>Jupyter</li>
+            <li>Git</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── CTA ─── -->
+  <div class="cta-section">
+    <div class="container">
+      <span class="cta-label reveal">Get In Touch</span>
+      <h2 class="cta-title reveal">Let's work together.</h2>
+      <div class="reveal" style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+        <a href="mailto:hauzanziyadk@gmail.com" class="btn btn-primary">✉️ &nbsp;hauzanziyadk@gmail.com</a>
+        <a href="about.html" class="btn btn-outline">Know More →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── Footer ─── -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <p>© 2025 Hauzan Ziyadatul Khoir</p>
+        <div class="footer-links">
+          <a href="index.html" class="footer-link">Home</a>
+          <a href="projects.html" class="footer-link">Projects</a>
+          <a href="certificates.html" class="footer-link">Certificates</a>
+          <a href="about.html" class="footer-link">About</a>
+          <a href="mailto:hauzanziyadk@gmail.com" class="footer-link">Contact</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

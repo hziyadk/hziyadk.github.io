@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sentiment Analysis Engine — Hauzan Ziyadatul Khoir</title>
+  <meta name="description" content="Multi-class sentiment classification using transformer-based models on Indonesian social media text." />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⬛</text></svg>" />
+  <style>
+    /* ══ Project Detail Styles ══ */
+    .detail-back {
+      padding: calc(var(--nav-h) + 32px) 0 0;
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: var(--transition-fast);
+    }
+    .back-link:hover { color: var(--white); }
+    .back-link .arrow { transition: var(--transition-fast); }
+    .back-link:hover .arrow { transform: translateX(-4px); }
+
+    /* Hero */
+    .detail-hero {
+      padding: 48px 0 80px;
+      display: grid;
+      grid-template-columns: 1fr 480px;
+      gap: 64px;
+      align-items: center;
+    }
+    .detail-meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .detail-tag {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      padding: 5px 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-full);
+    }
+    .detail-year {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-dim);
+    }
+    .detail-title {
+      font-size: clamp(2.8rem, 6vw, 5.5rem);
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -0.04em;
+      line-height: 1;
+      margin-bottom: 28px;
+    }
+    .detail-tagline {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      max-width: 520px;
+      margin-bottom: 36px;
+    }
+    .detail-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+    .detail-hero-img {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      aspect-ratio: 4/3;
+    }
+    .detail-hero-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      filter: grayscale(30%);
+    }
+
+    /* Divider */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0;
+    }
+
+    /* Problem */
+    .detail-section { padding: 80px 0; }
+    .detail-section-inner {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 48px;
+    }
+    .detail-section-label {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      padding-top: 6px;
+    }
+    .detail-section-body h3 {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      color: var(--white);
+      margin-bottom: 20px;
+      letter-spacing: -0.03em;
+    }
+    .detail-section-body p {
+      font-size: 1rem;
+      line-height: 1.8;
+      margin-bottom: 16px;
+    }
+
+    /* Full-width image */
+    .detail-fullwidth-img {
+      width: 100%;
+      aspect-ratio: 21/9;
+      object-fit: cover;
+      display: block;
+      filter: grayscale(40%);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* Approach steps */
+    .approach-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      margin-top: 8px;
+    }
+    .approach-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 28px;
+      transition: var(--transition-fast);
+    }
+    .approach-card:hover {
+      border-color: var(--border-hover);
+    }
+    .approach-num {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      margin-bottom: 12px;
+      letter-spacing: 0.1em;
+    }
+    .approach-card h4 {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+    .approach-card p { font-size: 0.875rem; margin: 0; }
+
+    /* Metrics */
+    .metrics-row {
+      display: flex;
+      gap: 0;
+      margin-top: 8px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .metric-item {
+      flex: 1;
+      padding: 36px 32px;
+      border-right: 1px solid var(--border);
+      transition: var(--transition-fast);
+    }
+    .metric-item:last-child { border-right: none; }
+    .metric-item:hover { background: var(--surface); }
+    .metric-num {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -0.04em;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .metric-label {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+    .metric-desc { font-size: 0.82rem; margin-top: 6px; }
+
+    /* Screenshot gallery */
+    .screenshots-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 8px;
+    }
+    .screenshots-grid img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      filter: grayscale(40%);
+      transition: var(--transition);
+    }
+    .screenshots-grid img:hover { filter: grayscale(0%); }
+    .screenshots-grid img:first-child {
+      grid-column: span 2;
+      aspect-ratio: 16/9;
+    }
+
+    /* Tech stack */
+    .tech-stack-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 8px;
+    }
+    .tech-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 20px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text);
+      transition: var(--transition-fast);
+    }
+    .tech-chip:hover { border-color: var(--border-hover); color: var(--white); }
+    .tech-chip svg { opacity: 0.5; }
+    .tech-chip:hover svg { opacity: 1; }
+
+    /* Prev / Next nav */
+    .project-nav {
+      padding: 64px 0;
+      border-top: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .project-nav-item {
+      padding: 32px;
+      transition: var(--transition-fast);
+      border-radius: var(--radius-md);
+    }
+    .project-nav-item:hover { background: var(--surface); }
+    .project-nav-item.next { text-align: right; border-left: 1px solid var(--border); }
+    .project-nav-dir {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .project-nav-item.next .project-nav-dir { justify-content: flex-end; }
+    .project-nav-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -0.03em;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .detail-hero { grid-template-columns: 1fr; gap: 40px; }
+      .detail-hero-img { display: none; }
+      .detail-section-inner { grid-template-columns: 1fr; gap: 16px; }
+      .approach-grid { grid-template-columns: 1fr; }
+      .metrics-row { flex-wrap: wrap; }
+      .metric-item { border-right: none; border-bottom: 1px solid var(--border); min-width: 50%; }
+      .screenshots-grid { grid-template-columns: 1fr; }
+      .screenshots-grid img:first-child { grid-column: span 1; }
+    }
+    @media (max-width: 600px) {
+      .project-nav { grid-template-columns: 1fr; }
+      .project-nav-item.next { border-left: none; border-top: 1px solid var(--border); text-align: left; }
+      .project-nav-item.next .project-nav-dir { justify-content: flex-start; }
+    }
+  </style>
+</head>
+<body class="page-enter">
+
+  <!-- ─── Navbar ─── -->
+  <nav class="navbar scrolled" id="navbar">
+    <div class="navbar-inner">
+      <a href="../index.html" class="logo">Hauzan<span>.</span></a>
+      <div class="nav-links" id="navLinks">
+        <a href="../projects.html" class="nav-link active">Projects</a>
+        <a href="../about.html" class="nav-link">About</a>
+        <a href="mailto:hauzanziyadk@gmail.com" class="btn btn-email">hauzanziyadk@gmail.com</a>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ─── Back link ─── -->
+  <div class="detail-back">
+    <div class="container">
+      <a href="../projects.html" class="back-link">
+        <span class="arrow">←</span> All Projects
+      </a>
+    </div>
+  </div>
+
+  <!-- ════════════════
+       HERO
+  ════════════════ -->
+  <div class="container">
+    <div class="detail-hero">
+      <div>
+        <div class="detail-meta reveal">
+          <span class="detail-tag">NLP</span>
+          <span class="detail-year">2024</span>
+        </div>
+        <h1 class="detail-title reveal">Sentiment Analysis Engine</h1>
+        <p class="detail-tagline reveal">
+          Multi-class sentiment classification using transformer-based models on Indonesian social media text. Built to handle code-mixing (Bahasa + English) with 89% F1-score.
+        </p>
+        <div class="detail-ctas reveal">
+          <a href="https://github.com/hauzanziyadk" target="_blank" class="btn btn-primary">↗ View on GitHub</a>
+          <a href="../projects.html" class="btn btn-outline">← All Projects</a>
+        </div>
+      </div>
+      <div class="detail-hero-img reveal">
+        <img src="../assets/images/project-nlp.png" alt="Sentiment Analysis Engine" />
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- ─── Full-width Image ─── -->
+  <img src="../assets/images/project-nlp.png" alt="Project Overview" class="detail-fullwidth-img" />
+
+  <!-- ════════════════
+       THE PROBLEM
+  ════════════════ -->
+  <div class="container">
+    <div class="detail-section">
+      <div class="detail-section-inner">
+        <div class="detail-section-label reveal">The Problem</div>
+        <div class="detail-section-body reveal">
+          <h3>Why does sentiment matter in Indonesian social media?</h3>
+          <p>Indonesian social media generates millions of posts daily, mixing Bahasa Indonesia, regional dialects, and English slang. Standard sentiment tools trained on English data fail completely — misclassifying sarcasm, slang, and informal abbreviations that are common in Indonesian online communication.</p>
+          <p>The goal was to build a production-ready classifier that handles this linguistic diversity and correctly predicts Positive, Negative, and Neutral sentiment across 5+ social media platforms.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- ════════════════
+       APPROACH
+  ════════════════ -->
+  <div class="container">
+    <div class="detail-section">
+      <div class="detail-section-inner">
+        <div class="detail-section-label reveal">Approach</div>
+        <div class="detail-section-body">
+          <h3 class="reveal">How it was built</h3>
+          <div class="approach-grid">
+            <div class="approach-card reveal reveal-delay-1">
+              <div class="approach-num">01 / Data Collection</div>
+              <h4>120K Labeled Tweets</h4>
+              <p>Scraped and manually labeled 120,000 Indonesian tweets across 5 categories using Twitter API and semi-supervised labeling.</p>
+            </div>
+            <div class="approach-card reveal reveal-delay-2">
+              <div class="approach-num">02 / Preprocessing</div>
+              <h4>Normalization Pipeline</h4>
+              <p>Custom tokenizer for Bahasa slang, emoji handling, and code-mixing detection. Built with HuggingFace Tokenizers.</p>
+            </div>
+            <div class="approach-card reveal reveal-delay-3">
+              <div class="approach-num">03 / Modelling</div>
+              <h4>Fine-tuned IndoBERT</h4>
+              <p>Fine-tuned IndoBERT-base on labeled dataset with layer-wise learning rate decay and mixed precision training.</p>
+            </div>
+            <div class="approach-card reveal reveal-delay-1">
+              <div class="approach-num">04 / Deployment</div>
+              <h4>FastAPI + Docker</h4>
+              <p>Wrapped model as REST API with FastAPI. Containerized with Docker, deployed on GCP Cloud Run for scalability.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- ════════════════
+       RESULTS
+  ════════════════ -->
+  <div class="container">
+    <div class="detail-section">
+      <div class="detail-section-inner">
+        <div class="detail-section-label reveal">Results</div>
+        <div class="detail-section-body">
+          <h3 class="reveal">Key Metrics</h3>
+          <div class="metrics-row reveal">
+            <div class="metric-item">
+              <div class="metric-num">89%</div>
+              <div class="metric-label">F1-Score</div>
+              <p class="metric-desc">Macro-averaged across 3 classes</p>
+            </div>
+            <div class="metric-item">
+              <div class="metric-num">92%</div>
+              <div class="metric-label">Accuracy</div>
+              <p class="metric-desc">On held-out test set</p>
+            </div>
+            <div class="metric-item">
+              <div class="metric-num">120K</div>
+              <div class="metric-label">Training Samples</div>
+              <p class="metric-desc">Indonesian social media posts</p>
+            </div>
+            <div class="metric-item">
+              <div class="metric-num">38ms</div>
+              <div class="metric-label">Inference Latency</div>
+              <p class="metric-desc">Average on Cloud Run</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- ════════════════
+       TECH STACK
+  ════════════════ -->
+  <div class="container">
+    <div class="detail-section">
+      <div class="detail-section-inner">
+        <div class="detail-section-label reveal">Tech Stack</div>
+        <div class="detail-section-body">
+          <h3 class="reveal">Tools & Libraries</h3>
+          <div class="tech-stack-grid reveal">
+            <span class="tech-chip">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M12.005 0L4.952 7.053a9.865 9.865 0 000 13.942 9.866 9.866 0 0013.942 0 9.866 9.866 0 000-13.942L16.53 9.418a5.922 5.922 0 010 8.365 5.924 5.924 0 01-8.366 0 5.922 5.922 0 010-8.365l3.84-3.84zM15.121 0a1.207 1.207 0 110 2.414 1.207 1.207 0 010-2.414z"/></svg>
+              PyTorch
+            </span>
+            <span class="tech-chip">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><circle cx="9" cy="9" r="1.5"/><circle cx="15" cy="9" r="1.5"/><path d="M12 17.5c-2.5 0-4.5-1.5-5-3.5h10c-.5 2-2.5 3.5-5 3.5z"/><circle cx="12" cy="12" r="10" fill="none" stroke="white" stroke-width="1.5"/></svg>
+              HuggingFace
+            </span>
+            <span class="tech-chip">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm-.5 4.5c1.984 0 3.5.896 3.5 2v1h-7v-1c0-1.104 1.516-2 3.5-2zm-6 6.5h13v1c0 3.59-2.91 6.5-6.5 6.5S6 15.59 6 12v-1zm6.5 5a1 1 0 100-2 1 1 0 000 2z"/></svg>
+              Python
+            </span>
+            <span class="tech-chip">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M9 3h2v18H9zm4 0h2v18h-2zM4 10h3v2H4zm13 0h3v2h-3zM4 12h3v2H4zm13 0h3v2h-3z"/></svg>
+              Pandas
+            </span>
+            <span class="tech-chip">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M13.5 6.5h2v2h-2zM10.5 6.5h2v2h-2zM7.5 6.5h2v2h-2zM13.5 9.5h2v2h-2zM10.5 9.5h2v2h-2zM7.5 9.5h2v2h-2zM4.5 9.5h2v2h-2zM16.5 9.5h2v2h-2z"/></svg>
+              Docker
+            </span>
+            <span class="tech-chip">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><rect x="3" y="3" width="18" height="18" rx="2" fill="none" stroke="white" stroke-width="1.5"/><path d="M3 9h18M9 21V9"/></svg>
+              FastAPI
+            </span>
+            <span class="tech-chip">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M22.288 9.576l-1.768-6.583A1.5 1.5 0 0019.07 2H4.93a1.5 1.5 0 00-1.45 1.007L1.712 9.576A6.56 6.56 0 000 14.006C0 17.866 3.134 21 7 21a7 7 0 004.996-2.09A6.97 6.97 0 0017 21c3.866 0 7-3.134 7-7a6.56 6.56 0 00-1.712-4.424z"/></svg>
+              Scikit-learn
+            </span>
+            <span class="tech-chip">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+              NumPy
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════
+       PREV / NEXT NAV
+  ════════════════ -->
+  <div class="container">
+    <div class="project-nav">
+      <a href="recommender-system.html" class="project-nav-item reveal">
+        <div class="project-nav-dir">← Previous</div>
+        <div class="project-nav-title">Hybrid Recommender System</div>
+      </a>
+      <a href="object-detection.html" class="project-nav-item next reveal">
+        <div class="project-nav-dir">Next →</div>
+        <div class="project-nav-title">Real-Time Object Detection</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ─── Footer ─── -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <p>© 2025 Hauzan Ziyadatul Khoir · GitHub Pages</p>
+        <div class="footer-links">
+          <a href="../index.html" class="footer-link">Home</a>
+          <a href="../projects.html" class="footer-link">Projects</a>
+          <a href="../about.html" class="footer-link">About</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../script.js"></script>
+</body>
+</html>
